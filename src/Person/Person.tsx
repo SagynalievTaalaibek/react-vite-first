@@ -3,14 +3,17 @@ import React from "react";
 interface Props extends React.PropsWithChildren {
     name: string;
     age: number;
+    onNameClick: React.MouseEventHandler;
+    onNameChange?: React.ChangeEventHandler<HTMLInputElement>;
 }
 
-const Person: React.FC<Props> = ({name, age, children}) => {
+const Person: React.FC<Props> = ({name, age, onNameClick, onNameChange, children}) => {
     return (
         <div className="person">
-            <h1>{name}</h1>
+            <h1 onClick={onNameClick}>{name}</h1>
             <p>Age: {age}</p>
             <p>{children}</p>
+            <input type="text" value={name} onChange={onNameChange}/>
         </div>
     )
 };
