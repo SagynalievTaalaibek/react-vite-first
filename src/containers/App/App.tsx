@@ -1,16 +1,13 @@
-import Person from "./Person/Person";
-import './App.css';
 import React, {useState} from "react";
+import type {Character} from '../../types';
+import './App.css';
+import People from '../../components/People/People';
+import Counter from '../../components/Counter/Counter';
+import ToggleButton from '../../components/ToggleButton/ToggleButton';
 
-interface Person {
-  id: number;
-  name: string;
-  age: number;
-  hobby: string;
-}
 
 function App() {
-  const [people, setPeople] = useState<Person[]>([
+  const [people, setPeople] = useState<Character[]>([
     {name: 'Jane', age: 28, hobby: 'Video games', id: 1},
     {name: 'John', age: 30, hobby: 'Football', id: 2},
     {name: 'Jack', age: 69, hobby: 'Drinking alone', id: 3},
@@ -78,8 +75,9 @@ function App() {
 
   const addPerson = () => {
     setPeople((prevState) => {
-      const id = prevState[prevState.length - 1].id + 1;
-      console.log(prevState.length);
+      const lastElement = prevState[prevState.length - 1];
+      const id = lastElement ? lastElement.id + 1 : 1;
+
       return [...prevState, {name: 'Someone', age: 21, hobby: 'Something', id}];
     });
   };
@@ -87,30 +85,25 @@ function App() {
   let peopleList: React.ReactNode = null;
 
   if (showPeople) {
-    peopleList = people.map((person) => {
-      return (
-        <Person
-          key={person.id}
-          name={person.name}
-          age={person.age}
-          onNameClick={() => increaseAge(person.id)}
-          onNameChange={(event) => changeName(event, person.id)}
-          remove={() => removePerson(person.id)}
-        >
-          <strong>Hobby: </strong>{person.hobby}
-        </Person>
-      );
-    });
+    peopleList = (
+      <People
+        people={people}
+        increaseAge={increaseAge}
+        changeName={changeName}
+        removePerson={removePerson}
+      />
+    );
   }
 
   return (
     <div className="App">
+      <ToggleButton onClick={togglePeople} isActive={showPeople}>Toggle people</ToggleButton>
+      <Counter peopleCounter={people.length}/>
       <div>
         <button onClick={changeAge}>Change age</button>
-        <button onClick={togglePeople}>Toggle people</button>
         <button onClick={addPerson}>Add people</button>
       </div>
-      {peopleList}
+          {peopleList}
     </div>
   );
 }

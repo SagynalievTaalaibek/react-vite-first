@@ -1,0 +1,26 @@
+#root {
+  max-width: 1280px;
+  text-align: center;
+}
+
+.peopleContainer {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.person {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  border: 1px solid #eee;
+  box-shadow: 0 2px 2px #ccc;
+  width: 200px;
+  padding: 20px;
+}
+
+.titleName {
+  font-size: 18px;
+  word-wrap: break-word;
+}
+
